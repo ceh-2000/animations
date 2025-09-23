@@ -40,7 +40,7 @@ class CVAE(nn.Module):
         return eps.mul(std).add(mu)  # return z sample
 
     def decoder(self, z, c):
-        c = c.view(c.size(0), -1)  # flatten condition
+        c = c.reshape(c.size(0), -1)  # flatten condition
         concat_input = torch.cat([z, c], dim=-1)
         h = F.relu(self.fc4(concat_input))
         h = F.relu(self.fc5(h))

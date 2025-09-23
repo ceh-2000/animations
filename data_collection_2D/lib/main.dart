@@ -14,14 +14,16 @@ void main() {
 enum FlowerAnimation {
   FastRotate('Fast Rotate'),
   SlowRotate('Slow Rotate'),
-  SwingEffect('Swing Effect');
+  SwingEffect('Swing Effect'),
+  SlowRotateAnti('Slow Rotate Anti-clockwise');
+
 
   final String label; // store stringified name
   const FlowerAnimation(this.label);
 }
 
 class AnimationRecorderGame extends FlameGame {
-  FlowerAnimation whichAnimation = FlowerAnimation.SwingEffect;
+  FlowerAnimation whichAnimation = FlowerAnimation.SlowRotateAnti;
   late Flower flower;
   late TextComponent debugLog;
   late MouseTracker mouseTracker;
@@ -73,6 +75,20 @@ class AnimationRecorderGame extends FlameGame {
                   reverseDuration: 2.0, // swing back
                   repeatCount: 2, // number of back-and-forth cycles
                   alternate: true, // automatically reverses direction
+                ),
+                onComplete: () {
+                  completeAnimation();
+                },
+              ),
+            );
+            break;
+          case FlowerAnimation.SlowRotateAnti:
+            flower.add(
+              RotateAroundEffect(
+                - 2 * tau, // radians to swing (adjust for "half moon" angle)
+                center: canvasSize / 2,
+                EffectController(
+                  duration: 6.0,
                 ),
                 onComplete: () {
                   completeAnimation();
