@@ -1,6 +1,7 @@
 */venv/
 *.idea/
 *.DS_Store
+*__pycache__*
 
 # Unity specific items
 data_collection_3d/[Ll]ibrary/
