@@ -15,7 +15,9 @@ enum FlowerAnimation {
   FastRotate('Fast Rotate'),
   SlowRotate('Slow Rotate'),
   SwingEffect('Swing Effect'),
-  SlowRotateAnti('Slow Rotate Anti-clockwise');
+  SlowRotateAnti('Slow Rotate Anti-clockwise'),
+  Jitter('Jitter');
+
 
 
   final String label; // store stringified name
@@ -23,7 +25,7 @@ enum FlowerAnimation {
 }
 
 class AnimationRecorderGame extends FlameGame {
-  FlowerAnimation whichAnimation = FlowerAnimation.SlowRotateAnti;
+  FlowerAnimation whichAnimation = FlowerAnimation.Jitter;
   late Flower flower;
   late TextComponent debugLog;
   late MouseTracker mouseTracker;
@@ -89,6 +91,23 @@ class AnimationRecorderGame extends FlameGame {
                 center: canvasSize / 2,
                 EffectController(
                   duration: 6.0,
+                ),
+                onComplete: () {
+                  completeAnimation();
+                },
+              ),
+            );
+            break;
+          case FlowerAnimation.Jitter:
+            flower.add(
+              RotateAroundEffect(
+                - 1.0, // radians to swing (adjust for "half moon" angle)
+                center: canvasSize / 2,
+                EffectController(
+                  duration: 2.0,
+                  reverseDuration: 2.0, // swing back
+                  repeatCount: 2, // number of back-and-forth cycles
+                  alternate: true, // automatically reverses direction
                 ),
                 onComplete: () {
                   completeAnimation();
